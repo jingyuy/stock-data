@@ -1,6 +1,6 @@
 
 def insert_row(session, ticker, incomestatementtype, incomestatement):
-    print(f"{ticker} {incomestatementtype} {incomestatement['fiscalDateEnding']}")
+    print(f"incomestatement: {ticker} {incomestatementtype} {incomestatement['fiscalDateEnding']}")
     numericfieldnames = ('grossProfit', 'totalRevenue',
                          'costOfRevenue', 'costofGoodsAndServicesSold',
                          'operatingIncome', 'sellingGeneralAndAdministrative',
@@ -55,3 +55,14 @@ def insert_row(session, ticker, incomestatementtype, incomestatement):
         (ticker, incomestatementtype,
          incomestatement['fiscalDateEnding'], incomestatement['reportedCurrency']) + numericfields
     )
+
+def get_last_incomestatement(session, ticker, incomestatementtype):
+    rslt = session.execute(
+        """
+        SELECT *  from stockapp.incomestatement 
+        where ticker = %s and  type = %s;
+        """,
+        (ticker, incomestatementtype)
+    )
+    df = rslt._current_rows
+    return df

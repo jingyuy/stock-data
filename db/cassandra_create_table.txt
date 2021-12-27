@@ -1,12 +1,13 @@
+
 CREATE KEYSPACE stockapp WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 
 CREATE TABLE stockapp.incomestatement (
-    ticker VARCHAR,
-    type VARCHAR,
+	ticker VARCHAR,
+	type VARCHAR,
 	fiscalDateEnding VARCHAR,
-    reportedCurrency VARCHAR,
-    grossProfit BIGINT,
-    totalRevenue BIGINT,
+	reportedCurrency VARCHAR,
+	grossProfit BIGINT,
+	totalRevenue BIGINT,
 	costOfRevenue BIGINT,
 	costofGoodsAndServicesSold BIGINT,
 	operatingIncome BIGINT,
@@ -23,12 +24,44 @@ CREATE TABLE stockapp.incomestatement (
 	depreciationAndAmortization BIGINT,
 	incomeBeforeTax BIGINT,
 	incomeTaxExpense BIGINT,
-	BIGINTerestAndDebtExpense BIGINT,
+	interestAndDebtExpense BIGINT,
 	netIncomeFromContinuingOperations BIGINT,
 	comprehensiveIncomeNetOfTax BIGINT,
 	ebit BIGINT,
 	ebitda BIGINT,
 	netIncome BIGINT,
-    PRIMARY KEY (ticker, type, fiscalDateEnding)
-)
-WITH CLUSTERING ORDER BY (type ASC, fiscalDateEnding DESC);
+	PRIMARY KEY (ticker, type, fiscalDateEnding))
+WITH CLUSTERING
+ORDER BY
+	(
+		type ASC,
+		fiscalDateEnding DESC
+);
+
+CREATE TABLE stockapp.balancesheet (
+	ticker VARCHAR,
+	"type" VARCHAR,
+	fiscalDateEnding VARCHAR,
+	reportedCurrency VARCHAR,
+	commonStock BIGINT,
+	commonStockSharesOutstanding BIGINT,
+	PRIMARY KEY (ticker, type, fiscalDateEnding))
+WITH CLUSTERING
+ORDER BY
+	(
+		type ASC,
+		fiscalDateEnding DESC
+);
+
+CREATE TABLE stockapp.stockmetric (
+	ticker VARCHAR,
+	type VARCHAR,
+	date VARCHAR,
+	PRIMARY KEY (ticker, type, date))
+WITH CLUSTERING
+ORDER BY
+	(
+		type ASC,
+		date DESC
+);
+

@@ -1,16 +1,13 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+from app_api import save_financial_data, get_financial_data
+import universe.universe
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+def run():
+    # all_stocks = universe.universe.get_all_stocks()
+    # for ticker in all_stocks:
+    #     save_financial_data.save_financial_date(ticker)
+    result = get_financial_data.get_financial_data('TSLA', 'quarterly', ['ticker', 'type', 'fiscaldateending', 'commonstocksharesoutstanding'])
+    return result
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    run()
