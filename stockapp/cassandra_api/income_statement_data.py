@@ -1,3 +1,4 @@
+from cassandra_api import utils
 
 def insert_row(session, ticker, incomestatementtype, incomestatement):
     print(f"incomestatement: {ticker} {incomestatementtype} {incomestatement['fiscalDateEnding']}")
@@ -14,7 +15,7 @@ def insert_row(session, ticker, incomestatementtype, incomestatement):
                          'comprehensiveIncomeNetOfTax', 'ebit',
                          'ebitda', 'netIncome')
     numericfields = tuple(
-        map(lambda fieldname: int(incomestatement[fieldname]) if incomestatement[fieldname].isnumeric() else 0,
+        map(lambda fieldname: utils.getIntOrNull(incomestatement[fieldname]),
             numericfieldnames))
 
     session.execute(
@@ -56,7 +57,7 @@ def insert_row(session, ticker, incomestatementtype, incomestatement):
          incomestatement['fiscalDateEnding'], incomestatement['reportedCurrency']) + numericfields
     )
 
-def get_last_incomestatement(session, ticker, incomestatementtype):
+def get_incomestatements(session, ticker, incomestatementtype):
     rslt = session.execute(
         """
         SELECT *  from stockapp.incomestatement 

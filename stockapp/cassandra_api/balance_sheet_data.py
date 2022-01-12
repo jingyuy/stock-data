@@ -1,9 +1,10 @@
+from cassandra_api import utils
 
 def insert_row(session, ticker, balancesheettype, balancesheet):
     print(f"balancesheet: {ticker} {balancesheettype} {balancesheet['fiscalDateEnding']}")
     numericfieldnames = ('commonStock', 'commonStockSharesOutstanding')
     numericfields = tuple(
-        map(lambda fieldname: int(balancesheet[fieldname]) if balancesheet[fieldname] is not None and balancesheet[fieldname].isnumeric() else 0,
+        map(lambda fieldname:  utils.getIntOrNull(balancesheet[fieldname]),
             numericfieldnames))
 
     session.execute(

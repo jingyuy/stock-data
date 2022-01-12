@@ -57,11 +57,49 @@ CREATE TABLE stockapp.stockmetric (
 	ticker VARCHAR,
 	type VARCHAR,
 	date VARCHAR,
+	totalrevenue BIGINT,
+	totalrevenuegrowthrate float,
+	operatingexpense BIGINT,
+	operatingexpensegrowthrate float,
+	commonstocksharesoutstanding float,
+	targetprice2years20multiples float,
+	targetprice3years20multiples float,
 	PRIMARY KEY (ticker, type, date))
 WITH CLUSTERING
 ORDER BY
 	(
 		type ASC,
 		date DESC
+);
+
+CREATE TABLE stockapp.stockprice (
+	ticker VARCHAR,
+	date VARCHAR,
+	open float,
+	high float,
+	low float,
+	close float,
+	volume float,
+	dividends float,
+	stock_splits float,
+	updated_time VARCHAR,
+	PRIMARY KEY (ticker, date))
+WITH CLUSTERING
+ORDER BY
+(
+		date ASC
+);
+
+CREATE TABLE stockapp.alert (
+	date VARCHAR,
+	alert VARCHAR,
+	ticker VARCHAR,
+	updated_time VARCHAR,
+	PRIMARY KEY (date, ticker, alert))
+WITH CLUSTERING
+ORDER BY
+(
+    ticker ASC,
+	alert ASC
 );
 
