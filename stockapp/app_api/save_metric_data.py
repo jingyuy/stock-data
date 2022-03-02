@@ -1,13 +1,12 @@
+from app_api import get_financial_data
 from cassandra_api import metric_data
 from cassandra_api.create_session import create_cassandra_session
-from app_api import get_financial_data
-import pandas as pd
 
 
 def save_metric_date(ticker):
     session = create_cassandra_session()
 
-    df = get_financial_data.get_financial_data(ticker, 'quarterly', ['ticker', 'type', 'fiscaldateending',
+    df = get_financial_data.get_financial_data(session, ticker, 'quarterly', ['ticker', 'type', 'fiscaldateending',
                                                                      'totalrevenue', 'operatingincome',
                                                                      'commonstocksharesoutstanding'])
     df['operatingexpense'] = df['totalrevenue'] - df['operatingincome']

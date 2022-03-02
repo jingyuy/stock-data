@@ -25,4 +25,4 @@ def send_email(subject='', text=''):
             server.sendmail(FROM, TO, message)
             print('successfully sent the mail')
     except Exception as ex:
-        print(f"failed to send mail: {str(ex)}")
+        print(f"failed to send mail: gmail_user: {gmail_user} {str(ex)}")

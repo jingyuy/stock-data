@@ -1,6 +1,6 @@
 from datetime import date, datetime, timedelta
 
-import universe
+from technical_app import universe, create_daily_alerts
 from app_api import fetch_and_save_stock_price
 from cassandra_api import create_session
 
@@ -24,10 +24,11 @@ def run(input):
         tickers = universe.get_all_stocks()
     fetch_and_save_stock_price.fetch_and_save(tickers, start_date, end_date, session)
     print(f"Finished: start_date: {start_date}, end_date: {end_date}, tickers: {tickers}")
+    create_daily_alerts.run(input)
 
 if __name__ == '__main__':
-    # run({'start_date': '2019-09-01', 'end_date': '2022-01-11'})
-    # run({'start_date': '2019-01-01', 'tickers': universe.get_growth_stocks()})
-    run({'start_date': '2019-01-01', 'end_date': '2022-01-11', 'tickers': ['NVDA', 'AMD']})
-    # run({})
+     # run({'start_date': '2022-01-01', 'end_date': '2022-02-09'})
+    # run({'start_date': '2019-01-01', 'tickers': ['NFLX']})
+    # run({'start_date': '2019-01-01', 'end_date': '2022-01-11', 'tickers': ['NVDA', 'AMD']})
+    run({})
 

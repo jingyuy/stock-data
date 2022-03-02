@@ -1,6 +1,10 @@
 from cassandra_api import utils
 
+insert_statement = None
+get_statement = None
+
 def insert_row(session, ticker, incomestatementtype, incomestatement):
+    global insert_statement
     print(f"incomestatement: {ticker} {incomestatementtype} {incomestatement['fiscalDateEnding']}")
     numericfieldnames = ('grossProfit', 'totalRevenue',
                          'costOfRevenue', 'costofGoodsAndServicesSold',
@@ -17,8 +21,8 @@ def insert_row(session, ticker, incomestatementtype, incomestatement):
     numericfields = tuple(
         map(lambda fieldname: utils.getIntOrNull(incomestatement[fieldname]),
             numericfieldnames))
-
-    session.execute(
+    if insert_statement is None:
+        insert_statement = session.prepare(
         """
         INSERT INTO incomestatement (
         ticker, type, 
@@ -37,33 +41,35 @@ def insert_row(session, ticker, incomestatementtype, incomestatement):
         ebitda, netIncome)
 
         VALUES (
-        %s, %s, 
-        %s, %s,
-        %s, %s, 
-        %s, %s,
-        %s, %s, 
-        %s, %s,
-        %s, %s, 
-        %s, %s,
-        %s, %s, 
-        %s, %s,
-        %s, %s, 
-        %s, %s,
-        %s, %s, 
-        %s, %s
+        ?, ?, 
+        ?, ?,
+        ?, ?, 
+        ?, ?,
+        ?, ?, 
+        ?, ?,
+        ?, ?, 
+        ?, ?,
+        ?, ?, 
+        ?, ?,
+        ?, ?, 
+        ?, ?,
+        ?, ?, 
+        ?, ?
         )
-        """,
+        """)
+    session.execute(insert_statement,
         (ticker, incomestatementtype,
          incomestatement['fiscalDateEnding'], incomestatement['reportedCurrency']) + numericfields
     )
 
 def get_incomestatements(session, ticker, incomestatementtype):
-    rslt = session.execute(
+    global get_statement
+    if get_statement is None:
+        get_statement = session.prepare(
         """
         SELECT *  from stockapp.incomestatement 
-        where ticker = %s and  type = %s;
-        """,
-        (ticker, incomestatementtype)
-    )
+        where ticker = ? and  type = ?;
+        """)
+    rslt = session.execute(get_statement, (ticker, incomestatementtype))
     df = rslt._current_rows
     return df

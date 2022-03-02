@@ -48,4 +48,5 @@ def get_growth_stocks():
  'MSFT',
  'ABNB',
   'NVDA',
-  'AMD']
+  'AMD',
+  'NFLX']

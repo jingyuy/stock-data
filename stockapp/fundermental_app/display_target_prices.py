@@ -4,6 +4,7 @@ import numpy
 import pandas as pd
 
 from app_api import get_metric_data
+from cassandra_api import create_session
 
 numpy.set_printoptions(threshold=sys.maxsize)
 
@@ -15,6 +16,7 @@ def print_full(x):
     print(x)
 
 def run():
+    session = create_session.create_cassandra_session()
     # all_stocks = universe.get_all_stocks()
     # all_stocks = ['TSLA', 'HOOD', 'COIN', 'PLTR', 'MQ', 'SE', 'PDD', 'BABA', 'SQ']
     all_stocks = ['SE', 'MQ', 'AMD', 'NVDA']
