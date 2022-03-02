@@ -4,7 +4,7 @@ import time
 from cassandra_api import create_session
 
 def run():
-    all_stocks = ['TSLA']
+    all_stocks = ['TSLA', 'NVDA']
     for ticker in all_stocks:
         save_financial_data.save_financial_date(ticker)
         time.sleep(1)

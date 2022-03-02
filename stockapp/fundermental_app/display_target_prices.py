@@ -19,7 +19,7 @@ def run():
     session = create_session.create_cassandra_session()
     # all_stocks = universe.get_all_stocks()
     # all_stocks = ['TSLA', 'HOOD', 'COIN', 'PLTR', 'MQ', 'SE', 'PDD', 'BABA', 'SQ']
-    all_stocks = ['SE', 'MQ', 'AMD', 'NVDA']
+    all_stocks = ['TSLA', 'NVDA']
 
     columns = ['ticker', 'date', 'totalrevenue', 'totalrevenuegrowthrate',
                                               'operatingexpense', 'operatingexpensegrowthrate', 'commonstocksharesoutstanding',
@@ -28,7 +28,7 @@ def run():
     # columns = ['ticker', 'date', 'targetprice2years20multiples', 'targetprice3years20multiples']
 
     for ticker in all_stocks:
-        df = get_metric_data.get_metric_data(ticker, 'quarterly', columns)
+        df = get_metric_data.get_metric_data(session, ticker, 'quarterly', columns)
         print_full(df[df['date'] >= '2021-09-30'])
 
 if __name__ == '__main__':

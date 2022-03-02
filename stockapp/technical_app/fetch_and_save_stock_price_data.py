@@ -27,7 +27,7 @@ def run(input):
     create_daily_alerts.run(input)
 
 if __name__ == '__main__':
-     # run({'start_date': '2022-01-01', 'end_date': '2022-02-09'})
+    # run({'start_date': '2021-01-01', 'end_date': '2022-03-01'})
     # run({'start_date': '2019-01-01', 'tickers': ['NFLX']})
     # run({'start_date': '2019-01-01', 'end_date': '2022-01-11', 'tickers': ['NVDA', 'AMD']})
     run({})
